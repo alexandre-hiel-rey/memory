@@ -1,6 +1,6 @@
 <?php
 if (!isset($_POST["start"])&& !isset($_POST["end"])){ ?>
-    <form action="test.php" method="post">
+    <form action="chrono.php" method="post">
     <input type="hidden" name="start" value="debut" /><br />
     <input type="submit" value="START" />
     </form> 
@@ -8,7 +8,7 @@ if (!isset($_POST["start"])&& !isset($_POST["end"])){ ?>
 }
 if (isset($_POST["start"])){
     $debut = microtime(true); ?>
-    <form action="test.php" method="post">
+    <form action="chroono.php" method="post">
     <input type="hidden" name="end" value=<?php echo $debut ?> /><br />
     <input type="submit" value="END" />
     </form> <?php
