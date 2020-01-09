@@ -1,0 +1,25 @@
+*{
+outline:none;	
+}
+
+#cartes{
+border:none;	
+width:118px;
+height:186px;	
+color : rgba(0,191,255,0);
+}
+
+
+#cartes:hover{
+cursor:pointer;	
+}
+
+#jeu{
+display:flex;
+justify-content:center;	
+}
+
+#jeu > form{
+	
+width:1000px;	
+}
