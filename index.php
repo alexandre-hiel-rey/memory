@@ -5,17 +5,21 @@
 	</head>
 
 
-
-
-
-	<body oncontextmenu="return false" onkeydown="return false;">
+	<body>
 <?php
 
 session_start();
 
+
 ?>	
 <div>
 <form method="post" action="index.php">
+	<select required name="test">
+		<option value="3">Très Facile</option>
+		<option value="6">Facile</option>
+		<option value="9">Moyen</option>
+		<option value="12">Difficile</option>
+	</select>
 	
 	<input type="submit" name="play" value="Jouer">
 </form>
@@ -30,16 +34,20 @@ session_start();
 if(isset($_SESSION['termine']))
 {
 	?>
+	
 	<div id="messagefin">
 		<div><?php echo $_SESSION['termine'];?></div>
 	</div>
 	<center><img id="victoire" src="gif/victoire.gif"></center>
 	<?php
+	echo (substr($_SESSION['fin'] - $_SESSION['debut'], 0, 5)). "seconde";
 	unset($_SESSION['termine']);
 }
+
 if(isset($_POST['replay']))
 {
 	session_destroy();
+	header('Location: index.php');
 }
 
 if(isset($_POST['cartes']))
@@ -47,9 +55,13 @@ if(isset($_POST['cartes']))
 	$_SESSION['cartesfaces']=SUBSTR($_POST['cartes'],0,5);
 }
 
-if(isset($_POST['play'])||(isset($_SESSION['play'])))
+if((isset($_POST['play']))||(isset($_SESSION['play'])))
 {	
-	
+
+if(!isset($_SESSION['test'])){	
+$_SESSION['test']=$_POST['test'];
+}
+
 	$_SESSION['play']=true;
 	$dir = opendir("cartes/");
 	
@@ -59,13 +71,11 @@ if(isset($_POST['play'])||(isset($_SESSION['play'])))
 	
 	$array = [];
 	$i =0;
-	// $p=0;
-	
-	// $k=$_POST['paires'];
-	
+	$p=0;
 	
 
-while($file = readdir($dir)) {
+
+while(($file = readdir($dir))&&($p < $_SESSION['test'])) {
 	
 	if( $file != '.' && $file != '..' && preg_match('#\.(jpe?g)$#i', $file))
 	{
@@ -77,8 +87,9 @@ while($file = readdir($dir)) {
 	}
 	
 	$i=$i+2;
+	$p=$p+1;
 	}
-	// $p=$p+1;
+	
 }
 if(!isset($_SESSION['jeuencours']))
 {
@@ -100,10 +111,24 @@ if(isset($_POST['play']))
 		
 	}
 	$_SESSION['tab']=$paires;
+	$_SESSION['debut']=microtime(true);
 }
 ?>
 
-<article id="jeu">
+<article 
+<?php if($_SESSION['test']==12)
+{?>
+ id="jeu2" 
+ <?php
+}
+else
+{
+?>
+id="jeu"
+<?php
+}?>
+>
+
 	<form method="post" action="index.php">
 <?php
 
@@ -170,7 +195,7 @@ else
 		$replace=array(SUBSTR(($_POST['cartes']),5) => SUBSTR($_POST['cartes'],0,5));
 		$_SESSION['jeux']=array_replace($_SESSION['jeux'], $replace); 	
 		$_SESSION['jeux']=$_SESSION['cartesdos'];
-		?><meta http-equiv="refresh" content="1;URL=index.php"><?php
+		?><meta http-equiv="refresh" content="0.3;URL=index.php"><?php
 		
 	}
 	else
@@ -178,12 +203,12 @@ else
 		if(!isset($_SESSION['jeux']))
 		{
 			unset($_SESSION['jeuencours']);
-			?><meta http-equiv="refresh" content="1;URL=index.php"><?php
+			?><meta http-equiv="refresh" content="0.3;URL=index.php"><?php
 		}
 		else
 		{
 			$_SESSION['cartesdos']=$_SESSION['jeux'];
-			?><meta http-equiv="refresh" content="1;URL=index.php"><?php
+			?><meta http-equiv="refresh" content="0.3;URL=index.php"><?php
 			
 		}
 	}
@@ -203,10 +228,10 @@ $k=$k+1;
 
 if($k==0)
 {
+$_SESSION['fin']= microtime(true);
 unset($_SESSION['play']);
 $_SESSION['termine']="Vous avez gagné !";
-?><meta http-equiv="refresh" content="0;URL=index.php"><?php
-	
+?><meta http-equiv="refresh" content="0;URL=index.php"><?php	
 }
 
 
