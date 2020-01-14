@@ -1,13 +1,56 @@
 
-body{
-background-color:grey;	
-	
+.accueil{
+background-image:url(../images/fondaccueil.jpg);
+background-size:cover;
+background-attachment:fixed;
+backdrop-filter:blur(4px);
+padding:0;	
+}
+
+input[type=text], select 
+{
+    text-align: center;
+    text-align-last: center;
+    width: 400px;
+}
+
+*{
+outline:none;
+padding:0;
+margin:0;	
+}
+
+.play{
+display:flex;
+width:300px;	
+justify-content:space-between;
+}
+
+.play select{
+border:none;
+background:transparent;	
+background-image: url(../images/select.jpg);
+width:150px;
+height:45px;
+
+background-color:#F0F0F0;
 }
 
 
 
-*{
-outline:none;	
+.button{
+width:65px;
+height:65px;
+border-radius:100%;
+background-image:url(../images/pokeball.jpg);
+background-size:cover;
+border:none;
+padding-top:35px;
+font-weight:bold;
+}
+
+.button:hover{
+cursor:pointer;	
 }
 
 #cartes{
@@ -33,6 +76,7 @@ justify-content:center;
 
 #jeu > form{
 width:800px;
+
 }
 
 
@@ -60,10 +104,18 @@ justify-content:center;
 margin-top:5%;	
 }
 
+@font-face{
+font-family:"Pokemon Solid";
+src:url('../Pokemon Solid.ttf');	
+}
 
-#messagefin img{
-
-
+.center{
+color: #FFCD00; 
+font-family:"Pokemon Solid";
+letter-spacing:5px;
+text-shadow: 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC, 0 0 2px #356ABC;
+font-size:35px;
+text-align:center;
 }
 
 

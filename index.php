@@ -5,14 +5,17 @@
 	</head>
 
 
-	<body>
+	<body class="accueil">
 <?php
 
 session_start();
 
-
-?>	
-<div>
+if((isset($_POST['play']))&&(!isset($_SESSION['play'])))
+{
+header('location: index.php');
+}
+?>
+<div class="play">
 <form method="post" action="index.php">
 	<select required name="test">
 		<option value="3">
@@ -33,17 +36,21 @@ session_start();
 		<option value="9">Moyen</option>
 		<option value="12">Difficile</option>
 	</select>
-	
-	<input type="submit" name="play" value="Jouer">
+<?php
+if(!isset($_SESSION['play']))
+{	
+?>
+	<input class="button" type="submit" name="play" value="Jouer">
+<?php
+}
+?>
 </form>
 
 <form method="post" action="index.php">
-	<input type="submit" name="replay" value="Rejouer">
+	<input class="button" type="submit" name="replay" value="Rejouer">
 </form>
 </div>
- 
 <?php
-
 if(isset($_SESSION['termine']))
 {
 	?>
@@ -51,16 +58,24 @@ if(isset($_SESSION['termine']))
 	<div id="messagefin">
 		<img src="https://fontmeme.com/permalink/200114/df7e82d57b87f3f06943b362167a751e.png" alt="police-pokemon" border="0"></a>
 	</div>
-	<center><img id="victoire" src="gif/victoire.gif"></center>
+	
+	<div class="center"><?php echo "En ". (substr($_SESSION['fin'] - $_SESSION['debut'], 0, 5)). " secondes !";?></div>
+	<div class="center"><img id="victoire" src="gif/victoire.gif"></div>
 	
 	<?php
-	echo (substr($_SESSION['fin'] - $_SESSION['debut'], 0, 5)). "seconde";
 	unset($_SESSION['termine']);
 }
 
 if(isset($_POST['replay']))
 {
-	session_destroy();
+	unset($_SESSION['cartesfaces']);
+	unset($_SESSION['play']);
+	unset($_SESSION['test']);
+	unset($_SESSION['difficultée']);
+	unset($_SESSION['jeuencours']);
+	unset($_SESSION['cartesdos']);
+	unset($_SESSION['jeux']);
+	
 	header('Location: index.php');
 }
 
@@ -72,7 +87,7 @@ if(isset($_POST['cartes']))
 if((isset($_POST['play']))||(isset($_SESSION['play'])))
 {
 
-	
+
 
 if(!isset($_SESSION['test'])){	
 $_SESSION['test']=$_POST['test'];
@@ -99,16 +114,11 @@ switch ($_SESSION['test']){
 	$_SESSION['play']=true;
 	$dir = opendir("cartes/");
 	
-	
 	$dos='../Back.png';
 
-	
 	$array = [];
 	$i =0;
-	
-	
 
- 
 while($file = readdir($dir)){
 	 
 	if( $file != '.' && $file != '..' && preg_match('#\.(jpe?g)$#i', $file))
