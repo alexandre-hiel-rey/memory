@@ -16,7 +16,8 @@ width:118px;
 height:186px;	
 color : rgba(0,191,255,0);
 border-radius:8px;
-
+margin-left:1%;	
+margin-top:1%;
 }
 
 
@@ -32,7 +33,6 @@ justify-content:center;
 
 #jeu > form{
 width:800px;
-	
 }
 
 
@@ -43,7 +43,7 @@ justify-content:center;
 }
 
 #jeu2 > form{
-width:1000px;
+width:1100px;
 	
 }
 
@@ -59,3 +59,11 @@ justify-content:center;
 #victoire{
 margin-top:5%;	
 }
+
+
+#messagefin img{
+
+
+}
+
+

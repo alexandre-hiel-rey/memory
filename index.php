@@ -15,7 +15,20 @@ session_start();
 <div>
 <form method="post" action="index.php">
 	<select required name="test">
-		<option value="3">Très Facile</option>
+		<option value="3">
+		<?php
+		if(isset($_SESSION['test']))
+		{
+		echo $_SESSION['difficultée'];
+		}
+		else
+		{
+		?> 
+		Très Facile
+		<?php
+		}
+		?>
+		</option>
 		<option value="6">Facile</option>
 		<option value="9">Moyen</option>
 		<option value="12">Difficile</option>
@@ -36,9 +49,10 @@ if(isset($_SESSION['termine']))
 	?>
 	
 	<div id="messagefin">
-		<div><?php echo $_SESSION['termine'];?></div>
+		<img src="https://fontmeme.com/permalink/200114/df7e82d57b87f3f06943b362167a751e.png" alt="police-pokemon" border="0"></a>
 	</div>
 	<center><img id="victoire" src="gif/victoire.gif"></center>
+	
 	<?php
 	echo (substr($_SESSION['fin'] - $_SESSION['debut'], 0, 5)). "seconde";
 	unset($_SESSION['termine']);
@@ -56,51 +70,92 @@ if(isset($_POST['cartes']))
 }
 
 if((isset($_POST['play']))||(isset($_SESSION['play'])))
-{	
+{
+
+	
 
 if(!isset($_SESSION['test'])){	
 $_SESSION['test']=$_POST['test'];
+
+switch ($_SESSION['test']){
+	case 3:
+	$_SESSION['difficultée']="Très Facile";
+	break;
+	
+	case 6:
+	$_SESSION['difficultée']="Facile";
+	break;
+	
+	case 9:
+	$_SESSION['difficultée']="Moyen";
+	break;
+	
+	case 12:
+	$_SESSION['difficultée']="Difficile";
+	break;
+}
 }
 
 	$_SESSION['play']=true;
 	$dir = opendir("cartes/");
 	
-	$retourne=[];
+	
 	$dos='../Back.png';
 
 	
 	$array = [];
 	$i =0;
-	$p=0;
+	
 	
 
-
-while(($file = readdir($dir))&&($p < $_SESSION['test'])) {
-	
+ 
+while($file = readdir($dir)){
+	 
 	if( $file != '.' && $file != '..' && preg_match('#\.(jpe?g)$#i', $file))
 	{
-	array_push($array, $file); 
+		array_push($array, $file); 	
+	}	
+	$i=$i+2;	
 	
-	if(!isset($_SESSION['jeuencours']))
-	{
-	array_push($retourne, $dos);
-	}
-	
-	$i=$i+2;
-	$p=$p+1;
-	}
 	
 }
+closedir($dir);
+
 if(!isset($_SESSION['jeuencours']))
 {
-	$retroune2=$retourne;
-	$_SESSION['cartesdos']=array_merge($retourne, $retroune2);
+
+$p=0;
+$_SESSION['cartesdos']=[];
+if(!isset($_SESSION['jeuencours']))
+	{
+	while($p != $_SESSION['test']*2)
+	{
+	array_push($_SESSION['cartesdos'], $dos);
+	$p=$p+1;	
+	}
+	}		
+}		
+
+$array2=array();
+echo '<br>';
+
+$nb_a_tirer =  $_SESSION['test'];
+
+while($nb_a_tirer != 0)
+{
+	
+	$nombre= mt_rand(0, 11);
+if( !in_array($array[$nombre], $array2))
+	{
+		$array2[]=$array[$nombre];
+		$nb_a_tirer--;
+	}
 }
 
 
-$doubles=$array;
-closedir($dir);
-$paires=array_merge($array, $doubles);
+
+$doubles=$array2;
+$paires=array_merge($array2, $doubles);
 
 
 
@@ -133,6 +188,8 @@ id="jeu"
 <?php
 
 
+$i=($_SESSION['test']*2);
+
 
 if(!isset($_POST['cartes']))
 {	
@@ -163,7 +220,8 @@ else
 	}
 
 }
-	
+
+
 $p=0;
 $n=0;
 
