@@ -10,7 +10,7 @@
         <div id="info_profil">
             <div id="pseudo_profil"><a href="profil.php"><?php echo $_SESSION["login"]; ?></a></div>
             <div id="profil_button"><form method="post" action="index.php" name="deco_b">
-                <input type="submit" name="deco" value="Déconnection">
+                <input type="submit" name="deco" value="Se déconnecter">
             </div>
         </div>
         <div id="avatar_profil">
