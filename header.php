@@ -1,3 +1,12 @@
+
+<?php
+ $retour = $_SERVER["REQUEST_URI"];
+if($retour === '/memory/header.php')
+{
+    header("Location: index.php");
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
