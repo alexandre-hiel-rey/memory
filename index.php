@@ -14,45 +14,77 @@ if((isset($_POST['play']))&&(!isset($_SESSION['play'])))
 {
 header('location: index.php');
 }
+
 ?>
-<div class="play">
+<div <?php if(!isset($_SESSION['termine']))
+{ 
+?>
+class="play"<?php } ?>>
 <form method="post" action="index.php">
+<?php
+if(!isset($_SESSION['termine']))
+{
+?>
 	<select required name="test">
-		<option value="3">
-		<?php
-		if(isset($_SESSION['test']))
-		{
-		echo $_SESSION['difficultée'];
-		}
-		else
-		{
-		?> 
-		Très Facile
-		<?php
-		}
-		?>
-		</option>
+		<option value="3">Très Facile</option>
 		<option value="6">Facile</option>
 		<option value="9">Moyen</option>
 		<option value="12">Difficile</option>
 	</select>
 <?php
+}
 if(!isset($_SESSION['play']))
 {	
+if(!isset($_SESSION['termine']))
+{
 ?>
 	<input class="button" type="submit" name="play" value="Jouer">
 <?php
 }
+}
 ?>
 </form>
 
+
 <form method="post" action="index.php">
-	<input class="button" type="submit" name="replay" value="Rejouer">
+	<input class="button" type="submit" name="replay" <?php if(!isset($_SESSION['termine'])){	
+	?>value="Quitter"
+	<?php
+	}
+	else
+	{
+	?>
+    value="Rejouer"
+	<?php
+	}
+	?>
+	>
 </form>
 </div>
+
 <?php
 if(isset($_SESSION['termine']))
 {
+	$base= mysqli_connect("localhost", "root", "", "memory");
+	mysqli_set_charset($base, "utf8");
+	
+	$T=substr($_SESSION['fin'] - $_SESSION['debut'], 0, 5); ;
+	$niveau=$_SESSION['test'];
+	$id=3;
+	
+	$requete="INSERT INTO score (temps, id_utilisateur, id_niveau) VALUES('".$T."', '".$id."','".$niveau."')";
+	mysqli_query($base, $requete);
+	
+	
+	$requete2="SELECT difficulte, temps, login FROM niveau, score, utilisateurs WHERE id_utilisateur=utilisateurs.id and id_niveau=niveau.id";
+	$result=mysqli_query($base, $requete2);
+	
+	
+
+	mysqli_close($base);
+	
+	
+	
 	?>
 	
 	<div id="messagefin">
@@ -63,7 +95,15 @@ if(isset($_SESSION['termine']))
 	<div class="center"><img id="victoire" src="gif/victoire.gif"></div>
 	
 	<?php
+	unset($_SESSION['cartesfaces']);
+	unset($_SESSION['play']);
+	unset($_SESSION['test']);
+	unset($_SESSION['difficultée']);
+	unset($_SESSION['jeuencours']);
+	unset($_SESSION['cartesdos']);
+	unset($_SESSION['jeux']);
 	unset($_SESSION['termine']);
+	
 }
 
 if(isset($_POST['replay']))
@@ -75,7 +115,7 @@ if(isset($_POST['replay']))
 	unset($_SESSION['jeuencours']);
 	unset($_SESSION['cartesdos']);
 	unset($_SESSION['jeux']);
-	
+	unset($_SESSION['termine']);
 	header('Location: index.php');
 }
 
@@ -117,18 +157,18 @@ switch ($_SESSION['test']){
 	$dos='../Back.png';
 
 	$array = [];
-	$i =0;
 
 while($file = readdir($dir)){
 	 
 	if( $file != '.' && $file != '..' && preg_match('#\.(jpe?g)$#i', $file))
 	{
 		array_push($array, $file); 	
-	}	
-	$i=$i+2;	
+	}		
 	
 	
 }
+
+
 closedir($dir);
 
 if(!isset($_SESSION['jeuencours']))
@@ -154,7 +194,7 @@ $nb_a_tirer =  $_SESSION['test'];
 while($nb_a_tirer != 0)
 {
 	
-	$nombre= mt_rand(0, 11);
+	$nombre= mt_rand(0, count($array)-1);
 if( !in_array($array[$nombre], $array2))
 	{
 		$array2[]=$array[$nombre];
@@ -301,7 +341,6 @@ unset($_SESSION['play']);
 $_SESSION['termine']="Vous avez gagné !";
 ?><meta http-equiv="refresh" content="0;URL=index.php"><?php	
 }
-
 
 ?>
 
