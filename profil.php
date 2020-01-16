@@ -10,6 +10,11 @@
 include("sources/config.php");
 include("header.php");
 
+if(!isset($_SESSION['login']))
+{
+	header('Location: connexion.php');
+}
+
 if(isset($_SESSION['login']))
 {
 
