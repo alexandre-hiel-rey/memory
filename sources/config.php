@@ -1,4 +1,9 @@
 <?php
+$retour = $_SERVER["REQUEST_URI"];
+if($retour === '/memory/sources/config.php')
+{
+    header("Location: ../index.php");
+}
 session_start();
     $output= NULL;
     $_SESSION['db'] = mysqli_connect('localhost','root','','memory');
