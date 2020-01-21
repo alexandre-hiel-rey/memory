@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 16 jan. 2020 à 14:21
+-- Généré le :  mar. 21 jan. 2020 à 17:24
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -58,15 +58,20 @@ CREATE TABLE IF NOT EXISTS `score` (
   `id_utilisateur` int(11) NOT NULL,
   `id_niveau` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `score`
 --
 
 INSERT INTO `score` (`id`, `temps`, `id_utilisateur`, `id_niveau`) VALUES
-(56, 119.000, 6, 12),
-(55, 13.030, 6, 3);
+(81, 21.580, 8, 6),
+(80, 33.610, 7, 6),
+(79, 4.434, 7, 3),
+(78, 9.852, 8, 3),
+(77, 20.500, 7, 3),
+(76, 25.490, 8, 3),
+(75, 29.660, 7, 3);
 
 -- --------------------------------------------------------
 
@@ -80,17 +85,15 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `login` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
 INSERT INTO `utilisateurs` (`id`, `login`, `password`) VALUES
-(4, 'Adrien', '$2y$10$ijXgNnTIy9L3DcJdJgoSGOosdt/hWx0MztBBq3cEBOnLMoGBC9FXC'),
-(3, 'Ztery', '$2y$10$hx0q7eCFhMOfeN51qhBgeOBSrYBCKownf0H/Cjy8snMjc1XYIprzG'),
-(5, 'jon', '$2y$10$ZWaFDBtY803fL42BWvlZI.OHT8SB7epV7EtvG1l6Kj99SXyHuFbvC'),
-(6, 'NML', '$2y$10$71zHkmzCYFTyLA4d5sCGt.4K7NYfMoN82rZjHL5wn2RGZGrBt3ney');
+(8, 'adrien', '$2y$10$bX5L0zV1obVvR/LMlghHkeLwmiayBJanJ9kdOj0ezzMFeOMeOxD4q'),
+(7, 'Ztery', '$2y$10$ZIvqKhQc0UKCvsO.FGI1deibRTYe2AF3S174t6EMFC/BSfobm9AFO');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
